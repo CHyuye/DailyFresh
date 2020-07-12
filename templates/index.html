@@ -1,0 +1,264 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}天天生鲜-首页{% endblock title %}
+{% block topfiles %}
+	<script type="text/javascript" src="{% static 'js/jquery-1.12.4.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/jquery-ui.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/slide.js' %}"></script>
+{% endblock topfiles %}
+{% block body %}
+	<div class="navbar_con">
+		<div class="navbar">
+			<h1 class="fl">全部商品分类</h1>
+			<ul class="navlist fl">
+				<li><a href="">首页</a></li>
+				<li class="interval">|</li>
+				<li><a href="">手机生鲜</a></li>
+				<li class="interval">|</li>
+				<li><a href="">抽奖</a></li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="center_con clearfix">
+		<ul class="subnav fl">
+            {% for type in types %}
+			    <li><a href="#model0{{ forloop.counter }}" class="{{ type.logo }}">{{ type.name }}</a></li>
+            {% endfor %}
+		</ul>
+		<div class="slide fl">
+			<ul class="slide_pics">
+                {% for banner in goods_banners %}
+				    <li><a href="{% url 'goods:detail' banner.sku.id %}"><img src="{{ banner.image.url }}" alt="幻灯片"></a></li>
+                {% endfor %}
+			</ul>
+			<div class="prev"></div>
+			<div class="next"></div>
+			<ul class="points"></ul>
+		</div>
+		<div class="adv fl">
+            {% for pro_banner in promotion_banners %}
+			    <a href="{% url 'goods:index' %}"><img src="{{ pro_banner.image.url }}"></a>
+			{% endfor %}
+		</div>
+	</div>
+
+    {% for type in types %}
+	<div class="list_model">
+		<div class="list_title clearfix">
+			<h3 class="fl" id="model0{{ forloop.counter }}">{{ type.name }}</h3>
+			<div class="subtitle fl">
+				<span>|</span>
+                {% for banner in type.title_banners %}
+				<a href="{% url 'goods:detail' banner.sku.id %}">{{ banner.sku.name }}</a>
+                {% endfor %}
+			</div>
+			<a href="#" class="goods_more fr" id="fruit_more">查看更多 ></a>
+		</div>
+
+		<div class="goods_con clearfix">
+			<div class="goods_banner fl"><img src="{{ type.image.url }}"></div>
+			<ul class="goods_list fl">
+                {% for banner in type.image_banners %}
+                <li>
+                    <h4><a href="{% url 'goods:detail' banner.sku.id %}">{{ banner.sku.name }}</a></h4>
+                    <a href="{% url 'goods:detail' banner.sku.id %}"><img src="{{ banner.sku.image.url }}"></a>
+                    <div class="prize">¥ {{ banner.sku.price }}</div>
+                </li>
+                {% endfor %}
+            </ul>
+		</div>
+	</div>
+    {% endfor %}
+
+{#	<div class="list_model">#}
+{#		<div class="list_title clearfix">#}
+{#			<h3 class="fl" id="model02">海鲜水产</h3>#}
+{#			<div class="subtitle fl">#}
+{#				<span>|</span>#}
+{#				<a href="#">河虾</a>#}
+{#				<a href="#">扇贝</a>				#}
+{#			</div>#}
+{#			<a href="#" class="goods_more fr">查看更多 ></a>#}
+{#		</div>#}
+{##}
+{#		<div class="goods_con clearfix">#}
+{#			<div class="goods_banner fl"><img src="{% static 'images/banner02.jpg' %}"></div>#}
+{#			<ul class="goods_list fl">#}
+{#				<li>#}
+{#					<h4><a href="#">青岛野生海捕大青虾</a></h4>#}
+{#					<a href="#"><img src="{% static 'images/goods/goods018.jpg' %}"></a>#}
+{#					<div class="prize">¥ 48.00</div>#}
+{#				</li>#}
+{#				<li>#}
+{#					<h4><a href="#">扇贝</a></h4>#}
+{#					<a href="#"><img src="{% static 'images/goods/goods019.jpg' %}"></a>#}
+{#					<div class="prize">¥ 46.00</div>#}
+{#				</li>#}
+{#				<li>#}
+{#					<h4><a href="#">冷冻秋刀鱼</a></h4>#}
+{#					<a href="#"><img src="{% static 'images/goods/goods020.jpg' %}"></a>#}
+{#					<div class="prize">¥ 19.00</div>#}
+{#				</li>#}
+{#				<li>#}
+{#					<h4><a href="#">基围虾</a></h4>#}
+{#					<a href="#"><img src="{% static 'images/goods/goods021.jpg' %}"></a>#}
+{#					<div class="prize">¥ 25.00</div>#}
+{#				</li>#}
+{#			</ul>#}
+{#		</div>#}
+{#	</div>#}
+{##}
+{#	<div class="list_model">#}
+{#		<div class="list_title clearfix">#}
+{#			<h3 class="fl" id="model03">猪牛羊肉</h3>#}
+{#			<div class="subtitle fl">#}
+{#				<span>|</span>#}
+{#				<a href="#">精选前腿肉</a>#}
+{#				<a href="#">牛排</a>#}
+{#			</div>#}
+{#			<a href="#" class="goods_more fr">查看更多 ></a>#}
+{#		</div>#}
+{##}
+{#		<div class="goods_con clearfix">#}
+{#			<div class="goods_banner fl"><img src="{% static 'images/banner03.jpg' %}"></div>#}
+{#			<ul class="goods_list fl">#}
+{#				<li>#}
+{#					<h4><a href="#">精选前腿肉</a></h4>#}
+{#					<a href="#"><img src="{% static 'images/goods/goods022.png' %}"></a>#}
+{#					<div class="prize">¥ 19.00</div>#}
+{#				</li>#}
+{#				<li>#}
+{#					<h4><a href="#">精选牛排</a></h4>#}
+{#					<a href="#"><img src="{% static 'images/goods/goods023.png' %}"></a>#}
+{#					<div class="prize">¥ 48.00</div>#}
+{#				</li>#}
+{#				<li>#}
+{#					<h4><a href="#">澳洲牛排</a></h4>#}
+{#					<a href="#"><img src="{% static 'images/goods/goods024.png' %}"></a>#}
+{#					<div class="prize">¥ 48.00</div>#}
+{#				</li>#}
+{#				<li>#}
+{#					<h4><a href="#">羊排</a></h4>#}
+{#					<a href="#"><img src="{% static 'images/goods/goods025.png' %}"></a>#}
+{#					<div class="prize">¥ 58.00</div>#}
+{#				</li>#}
+{#			</ul>#}
+{#		</div>#}
+{#	</div>#}
+{##}
+{#	<div class="list_model">#}
+{#		<div class="list_title clearfix">#}
+{#			<h3 class="fl" id="model04">禽类蛋品</h3>#}
+{#			<div class="subtitle fl">#}
+{#				<span>|</span>#}
+{#				<a href="#">土鸡蛋</a>#}
+{#				<a href="#">冷冻鸡腿</a>#}
+{#			</div>#}
+{#			<a href="#" class="goods_more fr">查看更多 ></a>#}
+{#		</div>#}
+{##}
+{#		<div class="goods_con clearfix">#}
+{#			<div class="goods_banner fl"><img src="{% static 'images/banner04.jpg' %}"></div>#}
+{#			<ul class="goods_list fl">#}
+{#				<li>#}
+{#					<h4><a href="#">溏心鸡蛋</a></h4>#}
+{#					<a href="#"><img src="{% static 'images/goods/goods026.png' %}"></a>#}
+{#					<div class="prize">¥ 18.00</div>#}
+{#				</li>#}
+{#				<li>#}
+{#					<h4><a href="#">冷冻鸡肉</a></h4>#}
+{#					<a href="#"><img src="{% static 'images/goods/goods027.png' %}"></a>#}
+{#					<div class="prize">¥ 15.90</div>#}
+{#				</li>#}
+{#				<li>#}
+{#					<h4><a href="#">鸡块</a></h4>#}
+{#					<a href="#"><img src="{% static 'images/goods/goods028.png' %}"></a>#}
+{#					<div class="prize">¥ 9.90</div>#}
+{#				</li>#}
+{#				<li>#}
+{#					<h4><a href="#">香辣鸭舌</a></h4>#}
+{#					<a href="#"><img src="{% static 'images/goods/goods029.png' %}"></a>#}
+{#					<div class="prize">¥ 38.00</div>#}
+{#				</li>#}
+{#			</ul>#}
+{#		</div>#}
+{#	</div>#}
+{##}
+{#	<div class="list_model">#}
+{#		<div class="list_title clearfix">#}
+{#			<h3 class="fl" id="model05">新鲜蔬菜</h3>#}
+{#			<div class="subtitle fl">#}
+{#				<span>|</span>#}
+{#				<a href="#">番茄</a>#}
+{#				<a href="#">甜南瓜</a>#}
+{#			</div>#}
+{#			<a href="#" class="goods_more fr">查看更多 ></a>#}
+{#		</div>#}
+{##}
+{#		<div class="goods_con clearfix">#}
+{#			<div class="goods_banner fl"><img src="{% static 'images/banner05.jpg' %}"></div>#}
+{#			<ul class="goods_list fl">#}
+{#				<li>#}
+{#					<h4><a href="#">番茄</a></h4>#}
+{#					<a href="#"><img src="{% static 'images/goods/goods030.png' %}"></a>#}
+{#					<div class="prize">¥ 4.00</div>#}
+{#				</li>#}
+{#				<li>#}
+{#					<h4><a href="#">红辣椒</a></h4>#}
+{#					<a href="#"><img src="{% static 'images/goods/goods031.png' %}"></a>#}
+{#					<div class="prize">¥ 8.00</div>#}
+{#				</li>#}
+{#				<li>#}
+{#					<h4><a href="#">竹笋</a></h4>#}
+{#					<a href="#"><img src="{% static 'images/goods/goods032.png' %}"></a>#}
+{#					<div class="prize">¥ 16.00</div>#}
+{#				</li>#}
+{#				<li>#}
+{#					<h4><a href="#">甜南瓜</a></h4>#}
+{#					<a href="#"><img src="{% static 'images/goods/goods033.png' %}"></a>#}
+{#					<div class="prize">¥ 6.00</div>#}
+{#				</li>#}
+{#			</ul>#}
+{#		</div>#}
+{#	</div>#}
+{##}
+{#	<div class="list_model">#}
+{#		<div class="list_title clearfix">#}
+{#			<h3 class="fl" id="model06">速冻食品</h3>#}
+{#			<div class="subtitle fl">#}
+{#				<span>|</span>#}
+{#				<a href="#">山东水饺</a>#}
+{#				<a href="#">熊猫馒头</a>#}
+{#			</div>#}
+{#			<a href="#" class="goods_more fr">查看更多 ></a>#}
+{#		</div>#}
+{##}
+{#		<div class="goods_con clearfix">#}
+{#			<div class="goods_banner fl"><img src="{% static 'images/banner06.jpg' %}"></div>#}
+{#			<ul class="goods_list fl">#}
+{#				<li>#}
+{#					<h4><a href="#">山东水饺</a></h4>#}
+{#					<a href="#"><img src="{% static 'images/goods/goods034.png' %}"></a>#}
+{#					<div class="prize">¥ 18.90</div>#}
+{#				</li>#}
+{#				<li>#}
+{#					<h4><a href="#"></a>放心油条</h4>#}
+{#					<a href="#"><img src="{% static 'images/goods/goods035.png' %}"></a>#}
+{#					<div class="prize">¥ 14.90</div>#}
+{#				</li>#}
+{#				<li>#}
+{#					<h4><a href="#">牛肉丸</a></h4>#}
+{#					<a href="#"><img src="{% static 'images/goods/goods036.png' %}"></a>#}
+{#					<div class="prize">¥ 15.00</div>#}
+{#				</li>#}
+{#				<li>#}
+{#					<h4><a href="#">熊猫馒头</a></h4>#}
+{#					<a href="#"><img src="{% static 'images/goods/goods037.png' %}"></a>#}
+{#					<div class="prize">¥ 9.90</div>#}
+{#				</li>#}
+{#			</ul>#}
+{#		</div>#}
+{#	</div>#}
+
+{% endblock body %}
